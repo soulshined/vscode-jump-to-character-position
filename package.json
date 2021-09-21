@@ -1,0 +1,102 @@
+{
+    "name": "go-to-character-position",
+    "displayName": "Go to Character Position",
+    "publisher": "davidfreer",
+    "description": "Quickly jump to an absolute position of the active editor, regardless of the line or column number. Can configure it to be zero based or 1 based",
+    "version": "1.0.0",
+    "engines": {
+        "vscode": "^1.60.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "keywords": [
+        "character",
+        "jump",
+        "goto",
+        "go to",
+        "position",
+        "index"
+    ],
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./extension.js",
+    "bugs": {
+        "url": "https://github.com/soulshined/vscode-jump-to-character-position"
+    },
+    "homepage": "https://github.com/soulshined/vscode-jump-to-character-position",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/soulshined/vscode-jump-to-character-position"
+    },
+    "contributes": {
+        "commands": [
+            {
+                "command": "go-to-character-position.go-to-character-position",
+                "title": "Go to Character Position/Index"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "go-to-character-position.go-to-character-position",
+                "key": "ctrl+k ctrl+g",
+                "mac": "cmd+k cmd+g",
+                "when": "editorTextFocus"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Go to Character Position/Index",
+            "properties": {
+                "go-to-character-position.defaultIndex": {
+                    "type": "string",
+                    "default": "zero based",
+                    "enum": [
+                        "zero based",
+                        "one based"
+                    ],
+                    "enumDescriptions": [
+                        "The index is zero-based, mostly used by programmers or developers, counts by 1, starting at 0. For example, the first character index in the text body will be at index 0. Therefore, if you enter 2 in the prompt, your cursor will jump to the 3rd character",
+                        "One based indexes are natural language indices, that counts by 1, starting at 1. For example, the first character index in the text body will be at index 1. Therefore, if you enter 2 in the prompt, your cursor will jump to the 2nd character"
+                    ]
+                },
+                "go-to-character-position.revealType": {
+                    "type": "string",
+                    "default": "Top",
+                    "description": "This determines the behavior of how your viewport will scroll to an index that isn't currently within the bounds of what you see",
+                    "enum": [
+                        "Default",
+                        "Top",
+                        "Center",
+                        "CenterIfOutsideTheViewport"
+                    ],
+                    "enumDescriptions": [
+                        "The range will be revealed with as little scrolling as possible",
+                        "The range will always be revealed at the top of the viewport",
+                        "The range will always be revealed in the center of the viewport",
+                        "If the range of the position is outside the viewport, it will be revealed in the center of the viewport. Otherwise, it will be revealed with as little scrolling as possible"
+                    ]
+                }
+            }
+        }
+    },
+    "icon": "images/icon.png",
+    "scripts": {
+        "lint": "eslint .",
+        "pretest": "npm run lint",
+        "test": "node ./test/runTest.js"
+    },
+    "devDependencies": {
+        "@types/vscode": "^1.60.0",
+        "@types/glob": "^7.1.3",
+        "@types/mocha": "^8.2.2",
+        "@types/node": "14.x",
+        "eslint": "^7.27.0",
+        "glob": "^7.1.7",
+        "mocha": "^8.4.0",
+        "typescript": "^4.3.2",
+        "vscode-test": "^1.5.2"
+    },
+    "license": "MIT"
+}
