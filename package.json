@@ -3,7 +3,7 @@
     "displayName": "Go to Character Position",
     "publisher": "davidfreer",
     "description": "Quickly jump to an absolute position of the active editor, regardless of the line or column number. Can configure it to be zero based or 1 based",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "engines": {
         "vscode": "^1.60.0"
     },
