@@ -87,6 +87,11 @@
         "pretest": "npm run lint",
         "test": "node ./test/runTest.js"
     },
+    "capabilities": {
+        "untrustedWorkspaces": {
+            "supported": true
+        }
+    },
     "devDependencies": {
         "@types/vscode": "^1.60.0",
         "@types/glob": "^7.1.3",
