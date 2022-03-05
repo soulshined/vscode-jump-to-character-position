@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-    entry: './src/extension.js',
+    entry: './src/extension.ts',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'extension.js',
@@ -13,6 +13,15 @@ module.exports = {
     externals: {
         vscode: 'commonjs vscode',
     },
-    resolve: { extensions: ['.js'] },
+    resolve: { extensions: ['.ts', '.js'] },
+    module: {
+        rules: [
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                use: [{loader: 'ts-loader'}]
+            }
+        ]
+    },
     devtool: 'nosources-source-map',
 }

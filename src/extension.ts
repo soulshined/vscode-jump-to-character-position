@@ -1,11 +1,11 @@
-const vscode = require('vscode');
+import * as vscode from "vscode";
 
-let cachedInput = undefined;
+let cachedInput : any = undefined;
 
 /**
  * @param {vscode.ExtensionContext} context
  */
-function activate(context) {
+export function activate(context: vscode.ExtensionContext) {
 
     console.log('"go-to-character-position" is active');
 
@@ -43,7 +43,7 @@ function activate(context) {
 }
 
 // this method is called when your extension is deactivated
-function deactivate() { }
+export function deactivate() { }
 
 function getRevealType() {
     const revealType = getEnumConfiguration('revealType', 'top', ['top', 'center', 'default', 'centerifoutsidetheviewport']);
@@ -60,21 +60,16 @@ function getRevealType() {
     }
 }
 
-function getEnumConfiguration(identifier, defaultConfig, possibles = []) {
-    let enumType = vscode.workspace.getConfiguration('go-to-character-position').get(identifier);
+function getEnumConfiguration(identifier: string, defaultConfig: string, possibles : string[] = []) {
+    let enumType = vscode.workspace.getConfiguration('go-to-character-position').get(identifier) as string;
     enumType = possibles.includes(enumType.toLowerCase()) ? enumType.toLowerCase() : defaultConfig.toLowerCase();
 
     return enumType
 }
 
-function clamp(val, min, max = Infinity) {
+function clamp(val: any, min: any, max = Infinity) {
     if (val < min) return min;
     if (val > max) return max;
 
     return val
-}
-
-module.exports = {
-    activate,
-    deactivate
 }
