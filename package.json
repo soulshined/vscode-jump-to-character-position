@@ -78,6 +78,18 @@
                         "The range will always be revealed in the center of the viewport",
                         "If the range of the position is outside the viewport, it will be revealed in the center of the viewport. Otherwise, it will be revealed with as little scrolling as possible"
                     ]
+                },
+                "go-to-character-position.statusbar": {
+                    "type" : "object",
+                    "markdownDescription": "The 'Go To Character Position' status bar item will display the current index of your cursor intuitively, based on your index zero-based setting. Just like the editor selection status bar item will show something like `Ln 84, Col 274` the Go To Character Position status bar item will show something like `↷ 1,200`. The number is cast to a localized string",
+                    "properties": {
+                        "priority" : {
+                            "type": "integer",
+                            "minimum": 0,
+                            "default": 101,
+                            "description": "This allows you to move the status bar item from right to left. The lower the number to 0, the farther right the status bar item will be, the higher the number from 0 the farther left the item will be."
+                        }
+                    }
                 }
             }
         }

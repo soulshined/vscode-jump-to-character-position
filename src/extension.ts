@@ -1,6 +1,13 @@
 import * as vscode from "vscode";
 
+const EXTN_QUALIFIER = 'go-to-character-position';
+const COMMANDS = Object.seal({
+    go_to_character_position: `${EXTN_QUALIFIER }.go-to-character-position`
+})
+
 let cachedInput : any = undefined;
+let statusbar : vscode.StatusBarItem;
+let indexing: string = getEnumConfiguration('defaultIndex', 'zero based', ['zero based', 'one based']);
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -10,7 +17,19 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('"go-to-character-position" is active');
 
     context.subscriptions.push(
-        vscode.commands.registerTextEditorCommand('go-to-character-position.go-to-character-position', async function (editor) {
+        statusbar,
+
+        vscode.window.onDidChangeTextEditorSelection(updateStatusBarItem),
+
+        vscode.workspace.onDidChangeConfiguration((e: vscode.ConfigurationChangeEvent) => {
+            if (e.affectsConfiguration(`${EXTN_QUALIFIER}.defaultIndex`))
+                indexing = getEnumConfiguration('defaultIndex', 'zero based', ['zero based', 'one based']);
+
+            if (e.affectsConfiguration(`${EXTN_QUALIFIER}.statusbar`))
+                updateStatusBarItemPriority(getConfiguration(`statusbar.priority`, 101));
+        }),
+
+        vscode.commands.registerTextEditorCommand(COMMANDS.go_to_character_position, async function (editor) {
             const indexing = getEnumConfiguration('defaultIndex', 'zero based', ['zero based', 'one based']);
 
             const input = await vscode.window.showInputBox({
@@ -39,7 +58,9 @@ export function activate(context: vscode.ExtensionContext) {
             editor.revealRange(new vscode.Range(target, target), getRevealType());
             editor.selection = new vscode.Selection(target, target);
         })
-    )
+    );
+
+    updateStatusBarItemPriority(101);
 }
 
 // this method is called when your extension is deactivated
@@ -60,8 +81,12 @@ function getRevealType() {
     }
 }
 
+function getConfiguration(identifier: string, defalt: any): any {
+    return vscode.workspace.getConfiguration(EXTN_QUALIFIER).get(identifier, defalt);
+}
+
 function getEnumConfiguration(identifier: string, defaultConfig: string, possibles : string[] = []) {
-    let enumType = vscode.workspace.getConfiguration('go-to-character-position').get(identifier) as string;
+    let enumType = vscode.workspace.getConfiguration(EXTN_QUALIFIER).get(identifier) as string;
     enumType = possibles.includes(enumType.toLowerCase()) ? enumType.toLowerCase() : defaultConfig.toLowerCase();
 
     return enumType
@@ -72,4 +97,20 @@ function clamp(val: any, min: any, max = Infinity) {
     if (val > max) return max;
 
     return val
+}
+
+function updateStatusBarItemPriority(priority: number) {
+    if (statusbar) statusbar.dispose();
+
+    statusbar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, priority);
+    statusbar.name = '↷ Go To Character Index';
+    statusbar.tooltip = `↷ Current Index${indexing === 'one based' ? '¹' : 'º'}`;
+    statusbar.command = COMMANDS.go_to_character_position;
+    statusbar.show();
+}
+
+function updateStatusBarItem(e: vscode.TextEditorSelectionChangeEvent) {
+    const index = e.textEditor.document.offsetAt(e.textEditor.selection.active) + +(indexing === 'one based');
+
+    statusbar.text = `↷ ${index.toLocaleString()}${indexing === 'one based' ? '¹' : 'º'}`;
 }
