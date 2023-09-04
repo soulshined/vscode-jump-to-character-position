@@ -11,6 +11,8 @@ Useful if you want to jump to a character position or specific index (zero based
 - The default keyboard shortcut (win) for jumping to a column/line is <kbd>ctrl+g</kbd>
 - The keyboard shorcut for jumping to a character position extends that, using: <kbd>ctrl+k</kbd> + <kbd>ctrl+g</kbd>
 
+*For macs replace the <kbd>ctrl</kbd> modifier with <kbd>cmd</kbd>*
+
 ## Extension Settings
 
 This extension contributes the following settings:
