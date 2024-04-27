@@ -2,6 +2,12 @@
 
 All notable changes to the "go-to-character" extension will be documented in this file.
 
+## v2.0.1
+
+- Greetings! Just a very minor update to refresh the status bar value's when editors are switched via keybinds and not mouse clicks
+
+  > **note** This sometimes doesn't work with the new 'floating windows' because the `vscode.window.onDidChangeActiveTextEditor` callback does not register for floating windows sometimes. That is beyond my control fyi but will keep an eye out for newer api versions
+
 ## v2.0
 
 - Add support for the plugin to be used in a visual studio code editor running in the browser. For example, when pressing <kbd>.</kbd> on [github.dev](https://github.dev) while checking code, it will show a visual studio code editor and this extension is supported in those environments now

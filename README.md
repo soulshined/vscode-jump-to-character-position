@@ -19,5 +19,6 @@ This extension contributes the following settings:
 
 * `go-to-character-position.defaultIndex`: set your default position index to be zero based or one based
 * `go-to-character-position.revealType`: This determines the behavior of how your viewport will scroll to an index that isn't currently within the bounds of what you see
+* `go-to-character-position.statusbar.priority` : This allows you to move the status bar item from right to left. The lower the number to 0, the farther right the status bar item will be, the higher the number from 0 the farther left the item will be
 
 **Enjoy!**

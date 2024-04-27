@@ -19,7 +19,13 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         statusbar,
 
-        vscode.window.onDidChangeTextEditorSelection(updateStatusBarItem),
+        vscode.window.onDidChangeTextEditorSelection(
+            (e: vscode.TextEditorSelectionChangeEvent) => updateStatusBarItem(e.textEditor)
+        ),
+        vscode.window.onDidChangeActiveTextEditor((e: vscode.TextEditor | undefined) => {
+            if (e === undefined) return;
+            updateStatusBarItem(e);
+        }),
 
         vscode.workspace.onDidChangeConfiguration((e: vscode.ConfigurationChangeEvent) => {
             if (e.affectsConfiguration(`${EXTN_QUALIFIER}.defaultIndex`))
@@ -109,8 +115,8 @@ function updateStatusBarItemPriority(priority: number) {
     statusbar.show();
 }
 
-function updateStatusBarItem(e: vscode.TextEditorSelectionChangeEvent) {
-    const index = e.textEditor.document.offsetAt(e.textEditor.selection.active) + +(indexing === 'one based');
+function updateStatusBarItem(e: vscode.TextEditor) {
+    const index = e.document.offsetAt(e.selection.active) + +(indexing === 'one based');
 
     statusbar.text = `↷ ${index.toLocaleString()}${indexing === 'one based' ? '¹' : 'º'}`;
 }
